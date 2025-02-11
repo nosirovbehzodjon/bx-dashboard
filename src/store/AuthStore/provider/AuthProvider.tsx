@@ -1,21 +1,24 @@
 import { ReactNode, useEffect } from 'react';
 
+import { supabase } from '@/config/supabase';
 import { useAuthStore } from '@/store/AuthStore/AuthStore';
 
 interface IAuthProviderProps {
   children: ReactNode;
 }
 export const AuthProvider = (props: IAuthProviderProps) => {
-  const { isInitialCheckDone, initialize } = useAuthStore();
+  const { setSession } = useAuthStore();
   const { children } = props;
 
   useEffect(() => {
-    initialize();
-  }, []);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
 
-  if (!isInitialCheckDone) {
-    return null;
-  }
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+  }, []);
 
   return children;
 };

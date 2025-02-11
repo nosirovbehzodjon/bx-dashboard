@@ -1,20 +1,20 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import { AuthPageLinks } from "@/provider/Router/router.links";
-
-import { Layout } from "@/layout";
+import { Layout } from '@/layout';
+import { AuthPageLinks } from '@/provider/Router/router.links';
+import { useAuthStore } from '@/store/AuthStore/AuthStore';
 
 export const AuthRouterGuard = () => {
-  // const { isAuthenticated } = useAuthStore();
-  // const location = useLocation();
+  const { session } = useAuthStore();
+  const location = useLocation();
 
-  const isAuthenticated = false;
-
-  if (isAuthenticated) {
-    return <Layout />;
+  if (session) {
+    return (
+      <Layout>
+        <Outlet />
+      </Layout>
+    );
   }
 
-  return (
-    <Navigate to={AuthPageLinks.login} state={{ from: location }} replace />
-  );
+  return <Navigate to={AuthPageLinks.login} state={{ from: location }} replace={true} />;
 };

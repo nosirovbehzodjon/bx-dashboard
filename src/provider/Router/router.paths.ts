@@ -1,15 +1,22 @@
 //---auth-page-path---------------------------
-
 export const AuthPaths = {
-  ROOT_PATH: "/auth",
+  ROOT_PATH: '/auth',
 
-  LOGIN: "login",
+  LOGIN: 'login',
 } as const;
 
-//---fake-home-page---------------------------
-
+//---news-page------------------------------
 export const NewsPaths = {
-  PREFIX: "/news",
+  PREFIX: '/news',
 
-  INDEX: "index",
+  INDEX: 'index',
+  CREATE: 'create',
+} as const;
+
+//---profile-page---------------------------
+export const ProfilePaths = {
+  PREFIX: '/profile',
+
+  INDEX: 'index',
+  CREATE: 'create',
 } as const;
