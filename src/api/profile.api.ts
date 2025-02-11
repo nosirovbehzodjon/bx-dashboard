@@ -1,7 +1,7 @@
 import { supabase } from '@/config/supabase';
 import { IProfileItem } from '@/types/profile.types';
 
-import { toast } from '@/hooks/use-toast';
+import { toast } from '@/hooks/useToast';
 
 export const ProfileApi = {
   getProfileList: async () => {

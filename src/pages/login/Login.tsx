@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/store/AuthStore/AuthStore';
 import { ILoginFromInputs } from '@/types/login.types';
 
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/useToast';
 
 import loginShow from '@/assets/login.jpg';
 
