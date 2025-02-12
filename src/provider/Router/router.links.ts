@@ -1,5 +1,5 @@
 import { join } from '@/provider/Router/router.helpers';
-import { AuthPaths, NewsPaths, ProfilePaths } from '@/provider/Router/router.paths';
+import { AccountPaths, AuthPaths, NewsPaths, ProfilePaths } from '@/provider/Router/router.paths';
 
 // ---auth-page-links-----------------------------------------------------------
 export const AuthPageLinks = {
@@ -16,4 +16,9 @@ export const NewsPageLinks = {
 export const ProfilePageLinks = {
   index: join(ProfilePaths.PREFIX, ProfilePaths.INDEX),
   create: join(ProfilePaths.PREFIX, ProfilePaths.CREATE),
+} as const;
+
+// ---account-page-------------------------------------------------------------
+export const AccountPageLinks = {
+  index: join(AccountPaths.PREFIX, AccountPaths.INDEX),
 } as const;

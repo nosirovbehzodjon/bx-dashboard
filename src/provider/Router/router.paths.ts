@@ -20,3 +20,10 @@ export const ProfilePaths = {
   INDEX: 'index',
   CREATE: 'create',
 } as const;
+
+//---account-page---------------------------
+export const AccountPaths = {
+  PREFIX: '/account',
+
+  INDEX: 'index',
+} as const;

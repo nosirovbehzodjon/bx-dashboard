@@ -1,6 +1,6 @@
 import { ErrorBoundary } from '@/components/Error';
 
-import { ProfileTableList } from '@/pages/profile/list/ProfileTableList';
+import { ProfileTableList } from '@/pages/profiles/list/ProfileTableList';
 
 export const ProfileList = () => {
   return (

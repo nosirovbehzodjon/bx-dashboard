@@ -25,6 +25,7 @@ import { NavProjects } from '@/layout/Sidebar/NavProjects';
 import { NavUser } from '@/layout/Sidebar/NavUser';
 import { TeamSwitcher } from '@/layout/Sidebar/TeamSwitcher';
 import { NewsPageLinks, ProfilePageLinks } from '@/provider/Router/router.links';
+import { NewsPaths, ProfilePaths } from '@/provider/Router/router.paths';
 
 // This is sample data.
 const data = {
@@ -53,7 +54,7 @@ const data = {
   navMain: [
     {
       title: 'News',
-      url: '#',
+      url: NewsPaths.PREFIX,
       icon: Newspaper,
       isActive: true,
       items: [
@@ -73,7 +74,7 @@ const data = {
     },
     {
       title: 'Profile',
-      url: '#',
+      url: ProfilePaths.PREFIX,
       icon: User,
       items: [
         {
@@ -167,7 +168,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

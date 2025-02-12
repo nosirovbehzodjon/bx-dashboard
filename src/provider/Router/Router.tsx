@@ -3,8 +3,13 @@ import { Navigate, useRoutes } from 'react-router-dom';
 
 import { AuthRouterGuard } from '@/provider/Router/AuthRouterGuard';
 // import { join } from "@/provider/Router/router.helpers";
-import { AuthPageLinks, NewsPageLinks, ProfilePageLinks } from '@/provider/Router/router.links';
-import { AuthPaths, NewsPaths, ProfilePaths } from '@/provider/Router/router.paths';
+import {
+  AccountPageLinks,
+  AuthPageLinks,
+  NewsPageLinks,
+  ProfilePageLinks,
+} from '@/provider/Router/router.links';
+import { AccountPaths, AuthPaths, NewsPaths, ProfilePaths } from '@/provider/Router/router.paths';
 
 //---react-lazy---------------------------------------------------------------
 
@@ -37,8 +42,21 @@ const NewsCreatePage = lazy(() =>
 
 //---profile--------------------------------------------------------------------
 const ProfileListPage = lazy(() =>
-  import('@/pages/profile/list').then(module => ({
+  import('@/pages/profiles/list').then(module => ({
     default: module.ProfileList,
+  })),
+);
+
+const ProfileCreatePage = lazy(() =>
+  import('@/pages/profiles/create').then(module => ({
+    default: module.ProfileCreate,
+  })),
+);
+
+//---account--------------------------------------------------------------------
+const AccountPage = lazy(() =>
+  import('@/pages/account').then(module => ({
+    default: module.AccountPage,
   })),
 );
 
@@ -51,6 +69,20 @@ export const Router = () => {
         {
           index: true,
           element: <Navigate to={NewsPaths.PREFIX} replace />,
+        },
+        //---account-page---------------------------------------------
+        {
+          path: AccountPaths.PREFIX,
+          children: [
+            {
+              index: true,
+              element: <Navigate to={AccountPageLinks.index} replace />,
+            },
+            {
+              path: AccountPaths.INDEX,
+              element: <AccountPage />,
+            },
+          ],
         },
         //---news-page---------------------------------------------
         {
@@ -81,6 +113,10 @@ export const Router = () => {
             {
               path: ProfilePaths.INDEX,
               element: <ProfileListPage />,
+            },
+            {
+              path: ProfilePaths.CREATE,
+              element: <ProfileCreatePage />,
             },
           ],
         },

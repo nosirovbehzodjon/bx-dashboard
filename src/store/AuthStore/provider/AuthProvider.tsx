@@ -7,7 +7,7 @@ interface IAuthProviderProps {
   children: ReactNode;
 }
 export const AuthProvider = (props: IAuthProviderProps) => {
-  const { setSession } = useAuthStore();
+  const { setSession, setProfile, session } = useAuthStore();
   const { children } = props;
 
   useEffect(() => {
@@ -19,6 +19,10 @@ export const AuthProvider = (props: IAuthProviderProps) => {
       setSession(session);
     });
   }, []);
+
+  useEffect(() => {
+    setProfile(session);
+  }, [session?.user.id]);
 
   return children;
 };
