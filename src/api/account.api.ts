@@ -19,4 +19,19 @@ export const AccountApi = {
       return data;
     }
   },
+
+  removeAccountImage: async (path: string) => {
+    const { error } = await supabase.storage.from('avatar').remove([path]);
+
+    if (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: error.message,
+      });
+      return false;
+    } else {
+      return true;
+    }
+  },
 };

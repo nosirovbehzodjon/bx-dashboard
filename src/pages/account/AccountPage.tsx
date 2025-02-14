@@ -1,5 +1,5 @@
 import { AlertCircle, Loader2, Upload } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -36,6 +36,7 @@ import { z } from 'zod';
 import { AccountApi } from '@/api/account.api';
 import { ProfileApi } from '@/api/profile.api';
 import { useAuthStore } from '@/store/AuthStore/AuthStore';
+import { IProfileParams } from '@/types/profile.types';
 
 import { useToast } from '@/hooks/useToast';
 
@@ -92,7 +93,15 @@ export function AccountPage({
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(initialData.image);
   const { toast } = useToast();
-  const { session, profile } = useAuthStore();
+  const { session, profile, setProfile } = useAuthStore();
+
+  const values = useMemo(() => {
+    return {
+      fullName: profile?.fullname || '',
+      email: profile?.email || '',
+      role: profile?.role || 'user',
+    };
+  }, [profile]);
 
   const form = useForm<AccountFormData>({
     resolver: zodResolver(FormSchema),
@@ -101,23 +110,30 @@ export function AccountPage({
       email: profile?.email,
       role: profile?.role,
     },
+    values,
   });
 
   async function onSubmit(data: AccountFormData) {
     setIsLoading(true);
     try {
       if (session) {
+        const payload: IProfileParams = {
+          fullname: data.fullName,
+        };
         if (data.image) {
           const path = session.user.id + '/' + data.image.name;
-          console.log(path);
+
+          await AccountApi.removeAccountImage(
+            profile?.avatar?.split('/').slice(-2).join('/') || '',
+          );
           const imagedata = await AccountApi.uploadAccountImage(path, data.image);
+          payload.avatar = imagedata?.fullPath;
+        }
 
-          const up = await ProfileApi.updateProfile(session.user.id, {
-            fullname: data.fullName,
-            avatar: imagedata?.fullPath,
-          });
+        const response = await ProfileApi.updateProfile(session.user.id, payload);
 
-          console.log('updated', up);
+        if (!response.error) {
+          setProfile(session);
         }
       }
     } catch {
@@ -133,7 +149,6 @@ export function AccountPage({
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log(file);
 
     if (file) {
       const reader = new FileReader();
@@ -171,7 +186,7 @@ export function AccountPage({
                 <Avatar className="h-32 w-32">
                   <AvatarImage src={imagePreview || avatar} />
                   <AvatarFallback className="text-4xl">
-                    {initialData.fullName.charAt(0)}
+                    {profile.fullname?.slice(0, 2)}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex items-center space-x-2">
@@ -216,7 +231,7 @@ export function AccountPage({
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter your email" {...field} />
+                        <Input placeholder="Enter your email" disabled {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -229,7 +244,7 @@ export function AccountPage({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Role</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select onValueChange={field.onChange} disabled defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select a role" />

@@ -4,6 +4,8 @@ export interface IProfileItem {
   avatar: string | null;
   role: 'owner' | 'admin' | 'user';
   email: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Profile extends IProfileItem {

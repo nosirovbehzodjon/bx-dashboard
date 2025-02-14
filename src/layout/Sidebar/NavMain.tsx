@@ -56,7 +56,9 @@ export function NavMain({
                       <SidebarMenuSubItem key={subItem.title}>
                         <SidebarMenuSubButton isActive={pathname === subItem.url} asChild>
                           <NavLink
-                            className={({ isActive }) => (isActive ? 'bg-blue-500' : undefined)}
+                            className={({ isActive }) =>
+                              isActive ? 'bg-sidebar-accent' : undefined
+                            }
                             to={subItem.url}
                           >
                             <span>{subItem.title}</span>

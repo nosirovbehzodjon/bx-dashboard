@@ -2,13 +2,11 @@ import {
   AudioWaveform,
   BookOpen,
   Command,
-  Frame,
   GalleryVerticalEnd,
-  Map,
   Newspaper,
-  PieChart,
   Settings2,
   User,
+  UserCircle,
 } from 'lucide-react';
 import * as React from 'react';
 
@@ -24,7 +22,7 @@ import { NavMain } from '@/layout/Sidebar/NavMain';
 import { NavProjects } from '@/layout/Sidebar/NavProjects';
 import { NavUser } from '@/layout/Sidebar/NavUser';
 import { TeamSwitcher } from '@/layout/Sidebar/TeamSwitcher';
-import { NewsPageLinks, ProfilePageLinks } from '@/provider/Router/router.links';
+import { AccountPageLinks, NewsPageLinks, ProfilePageLinks } from '@/provider/Router/router.links';
 import { NewsPaths, ProfilePaths } from '@/provider/Router/router.paths';
 
 // This is sample data.
@@ -140,19 +138,9 @@ const data = {
   ],
   projects: [
     {
-      name: 'Design Engineering',
-      url: '#',
-      icon: Frame,
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: PieChart,
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: Map,
+      name: 'Account',
+      url: AccountPageLinks.index,
+      icon: UserCircle,
     },
   ],
 };

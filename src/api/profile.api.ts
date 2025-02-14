@@ -38,17 +38,13 @@ export const ProfileApi = {
     }
   },
   updateProfile: async (id: string, params: IProfileParams) => {
-    try {
-      const { error, data } = await supabase.from('profiles').update(params).eq('id', id);
+    const response = await supabase.from('profiles').update(params).eq('id', id);
 
-      if (error) {
-        toast({ variant: 'destructive', title: error.message });
-      }
-
-      return data;
-    } catch (error) {
-      console.error('getProfile Api Error:', error);
-      return null;
+    if (response.error) {
+      toast({ variant: 'destructive', title: response.error.message });
+    } else {
+      toast({ title: 'Inforamtion successfully updated', className: 'bg-green-700' });
     }
+    return response;
   },
 };
